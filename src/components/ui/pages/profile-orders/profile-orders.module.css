@@ -12,4 +12,7 @@
 
 .orders {
   width: 100%;
+  overflow-y: scroll;
+  max-height: calc(100vh - 150px);
+  padding-right: 10px;
 }

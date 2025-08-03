@@ -1,19 +1,28 @@
 import { FC } from 'react';
-
 import { Button, Input } from '@zlden/react-developer-burger-ui-components';
 import styles from './profile.module.css';
 import commonStyles from '../common.module.css';
-
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
 
-export const ProfileUI: FC<ProfileUIProps> = ({
+interface ExtendedProfileUIProps extends ProfileUIProps {
+  editMode: {
+    name: boolean;
+    email: boolean;
+    password: boolean;
+  };
+  handleEditClick: (field: 'name' | 'email' | 'password') => void;
+}
+
+export const ProfileUI: FC<ExtendedProfileUIProps> = ({
   formValue,
   isFormChanged,
   updateUserError,
   handleSubmit,
   handleCancel,
-  handleInputChange
+  handleInputChange,
+  editMode,
+  handleEditClick
 }) => (
   <main className={`${commonStyles.container}`}>
     <div className={`mt-30 mr-15 ${styles.menu}`}>
@@ -35,12 +44,18 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             errorText={''}
             size={'default'}
             icon={'EditIcon'}
+            disabled={!editMode.name}
+            onIconClick={() => handleEditClick('name')}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+            onPointerEnter={undefined}
+            onPointerLeave={undefined}
           />
         </div>
         <div className='pb-6'>
           <Input
             type={'email'}
-            placeholder={'E-mail'}
+            placeholder={'Логин'}
             onChange={handleInputChange}
             value={formValue.email}
             name={'email'}
@@ -48,6 +63,12 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             errorText={''}
             size={'default'}
             icon={'EditIcon'}
+            disabled={!editMode.email}
+            onIconClick={() => handleEditClick('email')}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+            onPointerEnter={undefined}
+            onPointerLeave={undefined}
           />
         </div>
         <div className='pb-6'>
@@ -61,6 +82,10 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             errorText={''}
             size={'default'}
             icon={'EditIcon'}
+            disabled={!editMode.password}
+            onIconClick={() => handleEditClick('password')}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
           />
         </div>
         {isFormChanged && (

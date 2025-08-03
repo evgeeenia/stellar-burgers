@@ -7,8 +7,7 @@
 }
 
 .elements {
-  min-height: 100px;
-
+  max-height: 480px;
   overflow-y: scroll;
   list-style-type: none;
   margin: 0;
@@ -48,6 +47,12 @@
   line-height: 24px;
   color: #f2f2f3;
   margin-left: 44px;
+  transition: all 0.3s ease;
+}
+
+.noBuns:hover {
+  background: var(--background-element-hover);
+  transform: scale(1.02);
 }
 
 .noBunsTop {
