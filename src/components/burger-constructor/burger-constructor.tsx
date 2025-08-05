@@ -9,26 +9,23 @@ export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const constructorItems = useSelector((state) => ({
-    bun: state.burgerConstructor.bun,
-    ingredients: state.burgerConstructor.ingredients
-  }));
+  const bun = useSelector((state) => state.burgerConstructor.bun);
+  const ingredients = useSelector(
+    (state) => state.burgerConstructor.ingredients
+  );
 
   const { user } = useSelector((state) => state.user);
   const { orderRequest, orderDetails } = useSelector((state) => state.order);
 
   const price = useMemo(
     () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: any) => s + v.price,
-        0
-      ),
-    [constructorItems]
+      (bun ? bun.price * 2 : 0) +
+      ingredients.reduce((s: number, v: any) => s + v.price, 0),
+    [bun, ingredients]
   );
 
   const onOrderClick = async () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!bun || orderRequest) return;
 
     if (!user) {
       navigate('/login', { state: { from: { pathname: '/' } } });
@@ -36,9 +33,9 @@ export const BurgerConstructor: FC = () => {
     }
 
     const orderIngredients = [
-      constructorItems.bun._id,
-      ...constructorItems.ingredients.map((item) => item._id),
-      constructorItems.bun._id
+      bun._id,
+      ...ingredients.map((item) => item._id),
+      bun._id
     ];
 
     try {
@@ -57,7 +54,7 @@ export const BurgerConstructor: FC = () => {
     <BurgerConstructorUI
       price={price}
       orderRequest={orderRequest}
-      constructorItems={constructorItems}
+      constructorItems={{ bun, ingredients }}
       orderModalData={orderDetails}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}

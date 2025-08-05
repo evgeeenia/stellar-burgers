@@ -6,6 +6,12 @@
   color: #f2f2f3;
 }
 
+.main {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

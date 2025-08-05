@@ -16,16 +16,22 @@ import { IngredientDetails } from '../ingredient-details';
 import { OrderInfo } from '../order-info';
 import { ProtectedRoute } from '../protected-route';
 import { checkUserAuth } from '../../services/slices/user';
+import { fetchIngredients } from '../../services/slices/ingredients';
+import styles from './app.module.css';
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const background = location.state && location.state.background;
-  const { user } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     dispatch(checkUserAuth());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
   }, [dispatch]);
 
   const handleModalClose = () => {
@@ -35,7 +41,7 @@ function App() {
   return (
     <>
       <AppHeader userName={user?.name} />
-      <main>
+      <main className={styles.main}>
         <Routes location={background || location}>
           <Route path='/' element={<ConstructorPage />} />
           <Route path='/feed' element={<Feed />} />

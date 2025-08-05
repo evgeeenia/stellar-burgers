@@ -6,7 +6,8 @@ import { useSelector } from '../../services/store';
 
 export const IngredientDetails: FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { ingredients, isLoading } = useSelector((state) => state.ingredients);
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const isLoading = useSelector((state) => state.ingredients.isLoading);
 
   const ingredientData = ingredients.find((item) => item._id === id);
 

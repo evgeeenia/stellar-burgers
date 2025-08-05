@@ -4,27 +4,19 @@ import { useSelector, useDispatch } from '../../services/store';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { fetchIngredients } from '../../services/slices/ingredients';
 import { getOrderByNumber } from '../../services/slices/order';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams<{ number: string }>();
   const dispatch = useDispatch();
 
-  const { ingredients, isLoading: ingredientsLoading } = useSelector(
-    (state) => state.ingredients
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const ingredientsLoading = useSelector(
+    (state) => state.ingredients.isLoading
   );
-  const {
-    orderDetails,
-    orderRequest: orderLoading,
-    error
-  } = useSelector((state) => state.order);
-
-  useEffect(() => {
-    if (ingredients.length === 0 && !ingredientsLoading) {
-      dispatch(fetchIngredients());
-    }
-  }, [dispatch, ingredients.length, ingredientsLoading]);
+  const orderDetails = useSelector((state) => state.order.orderDetails);
+  const orderLoading = useSelector((state) => state.order.orderRequest);
+  const error = useSelector((state) => state.order.error);
 
   useEffect(() => {
     if (number && !orderDetails && !orderLoading) {

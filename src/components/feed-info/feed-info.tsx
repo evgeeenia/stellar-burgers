@@ -7,7 +7,9 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
   orders.filter((item) => item.status === status).map((item) => item.number);
 
 export const FeedInfo: FC = () => {
-  const { orders, total, totalToday } = useSelector((state) => state.feed);
+  const orders = useSelector((state) => state.feed.orders);
+  const total = useSelector((state) => state.feed.total);
+  const totalToday = useSelector((state) => state.feed.totalToday);
 
   const feed = {
     total,
