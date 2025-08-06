@@ -13,10 +13,8 @@ export const Feed: FC = () => {
   );
 
   useEffect(() => {
-    if (orders.length === 0 && !isLoading) {
-      dispatch(fetchFeed());
-    }
-  }, [dispatch, orders.length, isLoading]);
+    dispatch(fetchFeed());
+  }, []);
 
   const handleGetFeeds = () => {
     dispatch(fetchFeed());
