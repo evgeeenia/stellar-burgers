@@ -1,43 +1,61 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
+import { useNavigate } from 'react-router-dom';
 import { BurgerConstructorUI } from '@ui';
+import { useDispatch, useSelector } from '../../services/store';
+import { createOrder, clearOrder } from '../../services/slices/order';
+import { clearConstructor } from '../../services/slices/constructor';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const orderRequest = false;
+  const bun = useSelector((state) => state.burgerConstructor.bun);
+  const ingredients = useSelector(
+    (state) => state.burgerConstructor.ingredients
+  );
 
-  const orderModalData = null;
-
-  const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
-  };
-  const closeOrderModal = () => {};
+  const { user } = useSelector((state) => state.user);
+  const { orderRequest, orderDetails } = useSelector((state) => state.order);
 
   const price = useMemo(
     () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
+      (bun ? bun.price * 2 : 0) +
+      ingredients.reduce((s: number, v: any) => s + v.price, 0),
+    [bun, ingredients]
   );
 
-  return null;
+  const onOrderClick = async () => {
+    if (!bun || orderRequest) return;
+
+    if (!user) {
+      navigate('/login', { state: { from: { pathname: '/' } } });
+      return;
+    }
+
+    const orderIngredients = [
+      bun._id,
+      ...ingredients.map((item) => item._id),
+      bun._id
+    ];
+
+    try {
+      await dispatch(createOrder(orderIngredients)).unwrap();
+      dispatch(clearConstructor());
+    } catch (error) {
+      console.error('Ошибка при создании заказа:', error);
+    }
+  };
+
+  const closeOrderModal = () => {
+    dispatch(clearOrder());
+  };
 
   return (
     <BurgerConstructorUI
       price={price}
       orderRequest={orderRequest}
-      constructorItems={constructorItems}
-      orderModalData={orderModalData}
+      constructorItems={{ bun, ingredients }}
+      orderModalData={orderDetails}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
     />
