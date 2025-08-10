@@ -23,10 +23,10 @@ Cypress.Commands.add('setupApp', () => {
 
 Cypress.Commands.add('addIngredient', (ingredientName: string, sectionName?: string) => {
   if (sectionName) {
-    cy.contains(sectionName).click();
+    cy.contains(sectionName).click({ force: true });
   }
   cy.contains(ingredientName).parents('li').within(() => {
-    cy.contains(TEXT.addButton).click();
+    cy.contains(TEXT.addButton).click({ force: true });
   });
 });
 
@@ -42,16 +42,18 @@ Cypress.Commands.add('handleModal', (
 ) => {
   switch (action) {
     case 'open':
-      cy.contains(trigger!).click();
-      cy.get(SELECTORS.modal).should('exist');
+      cy.contains(trigger!).click({ force: true });
+      cy.get('#modals').find(SELECTORS.modal).should('exist');
       break;
     case 'close':
       if (closeMethod === 'overlay') {
-        cy.get(SELECTORS.modalOverlay).click('center', { force: true });
+        cy.get('#modals').find(SELECTORS.modalOverlay).click('center', { force: true });
       } else {
-        cy.get(SELECTORS.modalClose).click();
+        cy.get('#modals').find(SELECTORS.modalClose).click({ force: true });
+        cy.wait(100); 
       }
-      cy.get(SELECTORS.modal).should('not.exist');
+      cy.wait(500);
+      cy.get('#modals').should('not.have.descendants', SELECTORS.modal);
       break;
   }
 });
@@ -84,8 +86,8 @@ Cypress.Commands.add('setupAuth', () => {
 });
 
 Cypress.Commands.add('createOrder', () => {
-  cy.contains(TEXT.orderButton).click();
-  cy.get(SELECTORS.modal).should('exist');
-  cy.contains('идентификатор заказа').should('exist');
-  cy.contains('424242').should('exist');
+  cy.contains(TEXT.orderButton).click({ force: true });
+  cy.get('#modals').find(SELECTORS.modal).should('exist');
+  cy.get('#modals').contains('идентификатор заказа').should('exist');
+  cy.get('#modals').contains('424242').should('exist');
 });

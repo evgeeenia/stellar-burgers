@@ -3,7 +3,7 @@ import { AnyAction } from '@reduxjs/toolkit';
 
 describe('Слайс order', () => {
   beforeEach(() => {
-    (global.fetch as jest.Mock).mockReset();
+    jest.clearAllMocks();
   });
 
   it('обрабатывает createOrder fulfilled', async () => {
