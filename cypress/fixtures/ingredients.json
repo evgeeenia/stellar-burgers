@@ -1,0 +1,45 @@
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "bun-1",
+      "name": "Флюоресцентная булка R2-D3",
+      "type": "bun",
+      "proteins": 44,
+      "fat": 26,
+      "carbohydrates": 85,
+      "calories": 643,
+      "price": 988,
+      "image": "/images/bun1.png",
+      "image_large": "/images/bun1_large.png",
+      "image_mobile": "/images/bun1_mobile.png"
+    },
+    {
+      "_id": "main-1",
+      "name": "Мясо бессмертных моллюсков Protostomia",
+      "type": "main",
+      "proteins": 433,
+      "fat": 244,
+      "carbohydrates": 33,
+      "calories": 420,
+      "price": 300,
+      "image": "/images/main1.png",
+      "image_large": "/images/main1_large.png",
+      "image_mobile": "/images/main1_mobile.png"
+    },
+    {
+      "_id": "sauce-1",
+      "name": "Соус фирменный Space Sauce",
+      "type": "sauce",
+      "proteins": 50,
+      "fat": 22,
+      "carbohydrates": 11,
+      "calories": 14,
+      "price": 20,
+      "image": "/images/sauce1.png",
+      "image_large": "/images/sauce1_large.png",
+      "image_mobile": "/images/sauce1_mobile.png"
+    }
+  ]
+}
+
